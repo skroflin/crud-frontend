@@ -1,60 +1,61 @@
-import React, {useState} from 'react'
-import {
-  Button,
-  Grid,
-  Header,
-  Icon,
-  Menu,
-  Segment,
-  Sidebar,
-} from 'semantic-ui-react'
+import React, { useState } from "react"
+import { BrowserRouter, NavLink, Route, Routes } from "react-router-dom"
+import { Icon, Menu, Segment, SemanticICONS, Sidebar } from "semantic-ui-react"
+import styles from './Styles.module.scss'
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
 
-export const SideBar = () => {
-  const [visible, setVisible] = useState<boolean>(false)
+interface SideBarProps {
+    links: {
+        id: string
+        url: string
+        icon: string
+        component: React.ReactElement
+    }[]
+}
 
-  return (
-    <Grid columns={1}>
-      <Grid.Column>
-        <Button
-            onClick={() => setVisible(e => !e)} 
-        >View</Button>
-      </Grid.Column>
+const queryClient = new QueryClient()
 
-      <Grid.Column>
-        <Sidebar.Pushable as={Segment}>
-          <Sidebar
-            as={Menu}
-            animation='overlay'
-            icon='labeled'
-            inverted
-            onHide={() => setVisible(false)}
-            vertical
-            visible={visible}
-            width='thin'
-          >
-            <Menu.Item as='a'>
-              <Icon name='user'/>
-              Employee
-            </Menu.Item>
-            <Menu.Item as='a'>
-              <Icon name='building' />
-              Department
-            </Menu.Item>
-          </Sidebar>
+export function SideBar({ links }: SideBarProps) {
 
-          <Sidebar.Pusher>
-            <Segment basic>
-              <Header as='h1'>Application Content</Header>
-              <p>
-                Lorem, ipsum dolor sit amet consectetur adipisicing elit. Nesciunt, asperiores natus ipsam placeat aperiam saepe quo dolor repellat, dolorum nemo ex, nisi beatae eligendi. Dolores tempore nobis quod nesciunt earum? <br />
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Consequuntur a recusandae commodi, nemo nobis magni itaque vitae quam minima rerum expedita illum, aspernatur, voluptatem sed iste nostrum. Fugit, voluptatibus quae. <br />
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Tempora, ipsa error vitae eos praesentium deleniti perspiciatis quis. Quo cum vero, repellat soluta fugit officia. Facere ullam voluptas molestiae eveniet porro. <br />
-                Lorem ipsum dolor sit, amet consectetur adipisicing elit. At, reprehenderit, maxime minus deleniti sapiente quod id magnam incidunt inventore, nemo impedit ipsam dolores. Repellat laboriosam mollitia vitae unde nostrum magni.
-              </p>
-            </Segment>
-          </Sidebar.Pusher>
-        </Sidebar.Pushable>
-      </Grid.Column>
-    </Grid>
-  )
+    const [visible, setVisible] = useState<boolean>(true)
+    console.log(visible)
+    return (
+        <>
+            <Menu>
+                <Menu.Item onClick={() => setVisible(e => !e)}>
+                    <Icon name="th" size="big" />
+                </Menu.Item>
+            </Menu>
+            <BrowserRouter>
+                <Sidebar.Pushable as={Segment}>
+                    <Sidebar
+                        as={Menu}
+                        animation="push"
+                        icon='labeled'
+                        onHide={() => setVisible(false)}
+                        vertical
+                        visible={visible}
+                        width='thin'
+                    >
+                        {links.map(e => <NavLink key={e.id} to={e.url}>
+                            <Menu.Item>
+                                <Icon name={e.icon as SemanticICONS} />
+                                {e.id}
+                            </Menu.Item>
+                        </NavLink>
+                        )}
+                    </Sidebar>
+                    <QueryClientProvider client={queryClient}>
+                        <Sidebar.Pusher className={styles.pusher} dimmed={visible}>
+                            <Routes>
+                                {links.map(e =>
+                                    <Route key={e.id} path={`${e.url}/*`} element={e.component} />
+                                )}
+                            </Routes>
+                        </Sidebar.Pusher>
+                    </QueryClientProvider>
+                </Sidebar.Pushable>
+            </BrowserRouter>
+        </>
+    )
 }
