@@ -4,7 +4,7 @@ import './index.css'
 import { QueryClientProvider, QueryClient } from 'react-query';
 import 'semantic-ui-css/semantic.min.css';
 import { SideBar } from './Components/SideBar.tsx';
-import { Employee } from './Components/Employee.tsx';
+import { Employee } from './Components/Employee/Employee.tsx';
 import { Department } from './Components/Department.tsx';
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
