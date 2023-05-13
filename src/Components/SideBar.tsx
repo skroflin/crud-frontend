@@ -18,7 +18,6 @@ const queryClient = new QueryClient()
 export function SideBar({ links }: SideBarProps) {
 
     const [visible, setVisible] = useState<boolean>(true)
-    console.log(visible)
     return (
         <>
             <Menu>
