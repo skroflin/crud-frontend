@@ -4,13 +4,12 @@ import './index.css'
 import { QueryClientProvider, QueryClient } from 'react-query';
 import 'semantic-ui-css/semantic.min.css';
 import { SideBar } from './Components/SideBar.tsx';
+import { Employee } from './Components/Employee.tsx';
+import { Department } from './Components/Department.tsx';
 
-const queryClient = new QueryClient()
-
-ReactDOM.createRoot(document.getElementById('root')).render(
-  <React.StrictMode>
-    <QueryClientProvider client={queryClient}>
-      <SideBar/>
-    </QueryClientProvider>
-  </React.StrictMode>,
+ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
+      <SideBar links={[
+        { id: "Employee", icon: "user", url: "/", component: <Employee /> },
+        { id: "Department", icon: "building", url: "department", component: <Department /> },
+      ]} />
 )

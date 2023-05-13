@@ -11,5 +11,6 @@ function apiGetCall(route: string) {
 
 // employees
 export const getEmployees = () => apiGetCall("employee")
+export const getDepartments = () => apiGetCall("department")
 
 // department
