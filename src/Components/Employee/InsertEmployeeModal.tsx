@@ -1,16 +1,12 @@
 import React, { useState } from 'react' 
 import { Button, Form, Modal, Select } from 'semantic-ui-react'
 
-const departmentOptions = [
-    { key: 's', text: 'Sales', value: 'sales'},
-    { key: 'd', text: 'Development', value: 'development'},
-    { key: 'p', text: 'PR', value: 'pr'},
-    { key: 'm', text: 'Marketing', value: 'marketing'},
-    { key: 'mg', text: 'Managment', value: 'managment'},
-    { key: 'l', text: 'Legal', value: 'legal'}
-]
+interface InsertEmployeeModalProps {
+    departments: Department[]
+}
 
-export function InsertEmployeeModal() {
+export function InsertEmployeeModal({ departments } : InsertEmployeeModalProps) {
+  
   const [open, setOpen] = useState(false)
 
   return (
@@ -33,7 +29,11 @@ export function InsertEmployeeModal() {
     </Form.Field>
     <Form.Field
         control={Select}
-        options={departmentOptions}
+        options={departments.map((department: Department) => ({
+          key: `${department.departmentName}, ${department.departmentLocation}`,
+          text: `${department.departmentName}, ${department.departmentLocation}`,
+          value: department 
+        }))}
         label={{ children: 'Departments', htmlFor: 'form-select-control-departments' }}
         placeholder='Departments'
         search
