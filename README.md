@@ -4,7 +4,7 @@ CRUD application created with React, Semantic UI React and React Query. Consists
 
 ## Requirements
 
-Must download and run backend-portion of the application. Located on the following link 'https://github.com/skroflin/crud-backend', details for running backend portion are located in the repository.
+Must download and run backend-portion of the application. Located on the following link `https://github.com/skroflin/crud-backend`, details for running backend portion are located in the repository.
 
 ### Build and run
 
