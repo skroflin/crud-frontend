@@ -7,7 +7,6 @@ import { InsertEmployeeModal } from './InsertEmployeeModal'
 import { DeleteEmployeeModal } from './DeleteEmployeeModal'
 import { UpdateEmployeeModal } from './UpdateEmployeeModal'
 
-
 export function Employee() {
     const result = useQueries({
         queries: [
@@ -16,6 +15,8 @@ export function Employee() {
         ]
     })
 
+    console.log(result[0].isLoading)
+
     const employeeDelete = useMutation({
         mutationFn: deleteEmployee
     })
@@ -23,7 +24,7 @@ export function Employee() {
     const employeeUpdate = useMutation({
         mutationFn: updateEmployee
     })
-    
+
     if (result[0].isLoading || employeeDelete.isLoading) return <Loader />
     if (result[0].isError) return <div>Error: {result[0].error.message}</div>
     return (
@@ -49,8 +50,8 @@ export function Employee() {
                             <Table.Cell>{entry.lastModifyDate}</Table.Cell>
                             <Table.Cell>
                                 <DeleteEmployeeModal onConfirm={() => employeeDelete.mutate({employeeName : entry.employeeName})}/>
-                                <UpdateEmployeeModal 
-                                                departments={result[1].data} 
+                                <UpdateEmployeeModal
+                                                departments={result[1].data}
                                                 onConfirm={(employeeUpdateData: EmployeeUpdateReq) => employeeUpdate.mutate(employeeUpdateData)}
                                                 employee={entry}
                                                 />

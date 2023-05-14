@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Button, Form, Modal, Select } from 'semantic-ui-react'
+import { Button, DropdownProps, Form, FormInputProps, Modal, Select } from 'semantic-ui-react'
 import { EmployeeUpdateReq } from '../../api'
 
 interface UpdateEmployeeModalProps {
@@ -27,20 +27,28 @@ export function UpdateEmployeeModal({ departments, onConfirm, employee }: Update
             <Modal.Header>Fill in the required data to update</Modal.Header>
             <Modal.Content>
                 <Form>
-                    <Form.Input >
-                    </Form.Input>
-                    <Form.Field
-                        control={Select}
+                    <Form.Input
+                        fluid
+                        label="Salary"
+                        placeholder="Some number"
+                        onChange={(_, { value } : FormInputProps) => {
+                            setRequest({ ...request, salary: Number(value)})
+                        }}
+                        />
+
+                    <Form.Select
                         options={departments.map((department: Department) => ({
-                            key: `${department.departmentName}, ${department.departmentLocation}`,
                             text: `${department.departmentName}, ${department.departmentLocation}`,
-                            value: department
+                            value: `${department.departmentName}, ${department.departmentLocation}`,
+
                         }))}
-                        label={{ children: 'Departments', htmlFor: 'form-select-control-departments' }}
                         placeholder='E.g. Legal'
                         search
-                        searchInput={{ id: 'form-select-control-departments ' }}
-                        
+                        onChange={(_, { value } : DropdownProps) => {
+                            const departmentName = String(value).split(",")[0]
+                            const departmentLocation = String(value).split(",")[1]
+                            setRequest({ ...request, departmentName: departmentName, departmentLocation: departmentLocation})}
+                        }
                     />
                 </Form>
             </Modal.Content>

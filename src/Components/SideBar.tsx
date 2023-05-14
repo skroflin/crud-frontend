@@ -15,7 +15,7 @@ interface SideBarProps {
 
 export function SideBar({ links }: SideBarProps) {
 
-    const [visible, setVisible] = useState<boolean>(true)
+    const [visible, setVisible] = useState<boolean>(false)
     return (
         <>
             <Menu>
