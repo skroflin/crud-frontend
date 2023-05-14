@@ -2,7 +2,6 @@ import React, { useState } from "react"
 import { BrowserRouter, NavLink, Route, Routes } from "react-router-dom"
 import { Icon, Menu, Segment, SemanticICONS, Sidebar } from "semantic-ui-react"
 import styles from './Styles.module.scss'
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
 
 interface SideBarProps {
     links: {
@@ -13,7 +12,6 @@ interface SideBarProps {
     }[]
 }
 
-const queryClient = new QueryClient()
 
 export function SideBar({ links }: SideBarProps) {
 
@@ -22,7 +20,7 @@ export function SideBar({ links }: SideBarProps) {
         <>
             <Menu>
                 <Menu.Item onClick={() => setVisible(e => !e)}>
-                    <Icon name="th" size="big" />
+                    <Icon name="cogs" size="big" />
                 </Menu.Item>
             </Menu>
             <BrowserRouter>
@@ -44,7 +42,6 @@ export function SideBar({ links }: SideBarProps) {
                         </NavLink>
                         )}
                     </Sidebar>
-                    <QueryClientProvider client={queryClient}>
                         <Sidebar.Pusher className={styles.pusher} dimmed={visible}>
                             <Routes>
                                 {links.map(e =>
@@ -52,7 +49,6 @@ export function SideBar({ links }: SideBarProps) {
                                 )}
                             </Routes>
                         </Sidebar.Pusher>
-                    </QueryClientProvider>
                 </Sidebar.Pushable>
             </BrowserRouter>
         </>
