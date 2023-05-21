@@ -1,14 +1,21 @@
-import React, { useState } from 'react' 
-import { Button, Form, Modal, Select } from 'semantic-ui-react'
+import React, { useState } from 'react'
+import { Button, DropdownProps, Form, FormInputProps, Modal, Select } from 'semantic-ui-react'
+import { EmployeeInsertReq } from '../../api'
 
 interface InsertEmployeeModalProps {
-    departments: Department[]
+  departments: Department[]
+  onConfirm: (req: EmployeeInsertReq) => void
+  employee: Employee
 }
 
-export function InsertEmployeeModal({ departments } : InsertEmployeeModalProps) {
-  
+export function InsertEmployeeModal({ departments, onConfirm, employee }: InsertEmployeeModalProps) {
   const [open, setOpen] = useState(false)
-
+  const [request, setRequest] = useState<EmployeeInsertReq>({
+    employeeName: employee.employeeName,
+    salary: employee.salary,
+    departmentName: employee.departmentName,
+    departmentLocation: employee.departmentLocation
+  })
   return (
     <Modal
       onClose={() => setOpen(false)}
@@ -18,46 +25,59 @@ export function InsertEmployeeModal({ departments } : InsertEmployeeModalProps) 
     >
       <Modal.Header>Fill in the required data</Modal.Header>
       <Modal.Content>
-      <Form>
-    <Form.Field>
-      <label>Employee Name</label>
-      <input placeholder='E.g. Pero Perich' />
-    </Form.Field>
-    <Form.Field>
-      <label>Salary</label>
-      <input placeholder='A certain amount' />
-    </Form.Field>
-    <Form.Field
-        control={Select}
-        options={departments.map((department: Department) => ({
-          key: `${department.departmentName}, ${department.departmentLocation}`,
-          text: `${department.departmentName}, ${department.departmentLocation}`,
-          value: department 
-        }))}
-        label={{ children: 'Departments', htmlFor: 'form-select-control-departments' }}
-        placeholder='Departments'
-        search
-        searchInput={{ id: 'form-select-control-departments '}}
-    />
-    <Form.Field>
-      <label>Last Modify Date</label>
-      <input placeholder='April, May, June etc.' />
-    </Form.Field>
-  </Form>
+        <Form>
+          <Form.Field><Form.Input
+            fluid
+            label="Name"
+            placeholder="Pero Perich"
+            onChange={(_, { value }: FormInputProps) => {
+              setRequest({ ...request, employeeName: String(value) })
+            }}
+          />
+          </Form.Field>
+          <Form.Field>
+            <Form.Input
+              fluid
+              label="Salary"
+              placeholder="Some number"
+              onChange={(_, { value }: FormInputProps) => {
+                setRequest({ ...request, salary: Number(value) })
+              }}
+            />
+          </Form.Field>
+          <Form.Select
+            options={departments.map((department: Department) => ({
+              text: `${department.departmentName}, ${department.departmentLocation}`,
+              value: `${department.departmentName}, ${department.departmentLocation}`,
+
+            }))}
+            placeholder='E.g. Legal'
+            search
+            onChange={(_, { value }: DropdownProps) => {
+              const departmentName = String(value).split(",")[0]
+              const departmentLocation = String(value).split(",")[1]
+              setRequest({ ...request, departmentName: departmentName, departmentLocation: departmentLocation })
+            }
+            }
+          />
+        </Form>
       </Modal.Content>
       <Modal.Actions>
         <Button
-        content="Close"
-        labelPosition='right' 
-        color='red'
-        icon='close'
-        onClick={() => setOpen(false)}
+          content="Close"
+          labelPosition='right'
+          color='red'
+          icon='close'
+          onClick={() => setOpen(false)}
         />
         <Button
           content="Confirm"
           labelPosition='right'
           icon='checkmark'
-          onClick={() => setOpen(false)}
+          onClick={() => {
+            setOpen(false)
+            onConfirm(request)
+          }}
           positive
         />
       </Modal.Actions>

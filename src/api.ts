@@ -40,6 +40,13 @@ export interface EmployeeUpdateReq {
     employeeName: string
 }
 
+export interface EmployeeInsertReq {
+    employeeName: string
+    salary: number,
+    departmentName: string,
+    departmentLocation: string
+}
+
 export interface DepartemntDeleteReq {
     departmentName: string,
     departmentLocation: string
