@@ -1,8 +1,11 @@
 import React, { useState } from 'react'
 import { Button, Confirm } from 'semantic-ui-react'
 
+interface DeleteDepartmentModalProps {
+  onConfirm: () => void
+}
 
-export function DeleteDepartmentModal () {
+export function DeleteDepartmentModal ({ onConfirm } : DeleteDepartmentModalProps) {
     const [ open, setOpen ] = useState(false)
     
     return <>
@@ -10,7 +13,10 @@ export function DeleteDepartmentModal () {
         <Confirm
           open={open}
           onCancel={() => setOpen(false)}
-          onConfirm={() => setOpen(false)}
+          onConfirm={() => {
+            setOpen(false)
+            onConfirm()
+          }}
         />
     </>
 }
