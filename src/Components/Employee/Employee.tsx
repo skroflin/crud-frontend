@@ -1,6 +1,6 @@
 import { useQueries, useMutation } from '@tanstack/react-query'
 import React from 'react'
-import { EmployeeInsertReq, EmployeeUpdateReq, deleteEmployee, getDepartments, getEmployees, updateEmployee } from '../../api'
+import { EmployeeInsertReq, EmployeeUpdateReq, deleteEmployee, getDepartments, getEmployees, insertEmployee, updateEmployee } from '../../api'
 import { Container, Loader, Table } from 'semantic-ui-react'
 import styles from '../Styles.module.scss'
 import { InsertEmployeeModal } from './InsertEmployeeModal'
@@ -14,8 +14,6 @@ export function Employee() {
             { queryKey: ["departments"], queryFn: getDepartments },
         ]
     })
-
-    console.log(result[0].isLoading)
 
     const employeeDelete = useMutation({
         mutationFn: deleteEmployee
@@ -41,11 +39,12 @@ export function Employee() {
                         <Table.HeaderCell>Department Name</Table.HeaderCell>
                         <Table.HeaderCell>Department Location</Table.HeaderCell>
                         <Table.HeaderCell>Last Modify Date</Table.HeaderCell>
-                        <Table.HeaderCell><InsertEmployeeModal departments={result[1].data}
-                                                                onConfirm={(employeeInsertData: EmployeeInsertReq) => employeeInsert.mutate(employeeInsertData)}
-                                                                employee={}
-                                                                />
-                            </Table.HeaderCell>
+                        <Table.HeaderCell>
+                            <InsertEmployeeModal
+                                            departments={result[1].data}
+                                            onConfirm={(employeeInsertData: EmployeeInsertReq) => employeeInsert.mutate(employeeInsertData)}
+                            />
+                        </Table.HeaderCell>
                     </Table.Row>
                 </Table.Header>
                 <Table.Body>
@@ -69,8 +68,4 @@ export function Employee() {
                 </Table.Body>
             </Table>
         </Container>)
-}
-
-function insertEmployee(variables: void): Promise<unknown> {
-    throw new Error('Function not implemented.')
 }

@@ -9,8 +9,18 @@ function apiGetCall(route: string) {
         }).then((res) => res.data)
 }
 
-function apiUpdateCall<T>(route: string, data: T) {
-    return axios.post(`/api${route}`, {
+function apiPostCall<T>(route: string, data: T) {
+    return axios.post(`/api/${route}`, {
+        headers: {
+            'Access-Control-Allow-Credentials': 'true',
+            'Access-Control-Allow-Origin': "*"
+        },
+        data: data
+    }).then((res) => res.data)
+}
+
+function apiPutCall<T>(route: string, data: T) {
+    return axios.put(`/api/${route}`, {
         headers: {
             'Access-Control-Allow-Credentials': 'true',
             'Access-Control-Allow-Origin': "*"
@@ -55,7 +65,8 @@ export interface DepartemntDeleteReq {
 // employees
 export const getEmployees = () => apiGetCall("employee")
 export const deleteEmployee = (req: EmployeeDeleteReq) => apiDeleteCall<EmployeeDeleteReq>("employee", req)
-export const updateEmployee = (req: EmployeeUpdateReq) => apiUpdateCall<EmployeeUpdateReq>("employee", req)
+export const updateEmployee = (req: EmployeeUpdateReq) => apiPutCall<EmployeeUpdateReq>("employee", req)
+export const insertEmployee = (req: EmployeeInsertReq) => apiPostCall<EmployeeInsertReq>("employee", req)
 
 // department
 export const getDepartments = () => apiGetCall("department")

@@ -5,16 +5,15 @@ import { EmployeeInsertReq } from '../../api'
 interface InsertEmployeeModalProps {
   departments: Department[]
   onConfirm: (req: EmployeeInsertReq) => void
-  employee: Employee
 }
 
-export function InsertEmployeeModal({ departments, onConfirm, employee }: InsertEmployeeModalProps) {
+export function InsertEmployeeModal({ departments, onConfirm }: InsertEmployeeModalProps) {
   const [open, setOpen] = useState(false)
   const [request, setRequest] = useState<EmployeeInsertReq>({
-    employeeName: employee.employeeName,
-    salary: employee.salary,
-    departmentName: employee.departmentName,
-    departmentLocation: employee.departmentLocation
+    employeeName: "Dave",
+    salary: 100,
+    departmentName: "Sales",
+    departmentLocation: "London"
   })
   return (
     <Modal
@@ -76,6 +75,7 @@ export function InsertEmployeeModal({ departments, onConfirm, employee }: Insert
           icon='checkmark'
           onClick={() => {
             setOpen(false)
+            console.log("CONFIRMING", request)
             onConfirm(request)
           }}
           positive
