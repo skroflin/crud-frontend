@@ -37,6 +37,7 @@ export function UpdateEmployeeModal({ departments, onConfirm, employee }: Update
                         />
 
                     <Form.Select
+                        label="Department"
                         options={departments.map((department: Department) => ({
                             text: `${department.departmentName}, ${department.departmentLocation}`,
                             value: `${department.departmentName}, ${department.departmentLocation}`,

@@ -50,6 +50,7 @@ export function InsertEmployeeModal({ departments, onConfirm }: InsertEmployeeMo
               value: `${department.departmentName}, ${department.departmentLocation}`,
 
             }))}
+            label="Department"
             placeholder='E.g. Legal'
             search
             onChange={(_, { value }: DropdownProps) => {
