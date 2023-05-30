@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { deleteDepartment, getDepartments, insertDepartment } from "../../api";
+import { DepartmentUpdateReq, deleteDepartment, getDepartments, insertDepartment, updateDepartment } from "../../api";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { Container, Loader, Message, Table } from "semantic-ui-react";
 import styles from "../Styles.module.scss";
@@ -36,7 +36,14 @@ export function DepartmentTable() {
             Could not insert ${variables.departmentName}, ${variables.departmentLocation}`),
     });
 
-
+    const departmentUpdate = useMutation({
+        mutationFn: updateDepartment,
+        onSuccess: () => {
+            refetch();
+            setErrorMessage(undefined)
+        },
+        onError: () => setErrorMessage("Could not update department")
+    })
 
     if (isLoading) return <Loader />;
     if (isError)
@@ -77,7 +84,15 @@ export function DepartmentTable() {
                                         })
                                     }
                                 />
-                                <UpdateDepartmentModal />
+                                <UpdateDepartmentModal 
+                                    onConfirm={(departmentUpdateData: DepartmentUpdateReq
+                                    ) => 
+                                        departmentUpdate.mutate(
+                                            departmentUpdateData
+                                        )
+                                    }
+                                    department={entry}
+                                />
                             </Table.Cell>
                         </Table.Row>
                     ))}

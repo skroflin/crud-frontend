@@ -66,7 +66,12 @@ export const updateEmployee = (req: EmployeeUpdateReq) => apiPutCall<EmployeeUpd
 export const insertEmployee = (req: EmployeeInsertReq) => apiPostCall<EmployeeInsertReq>("employee", req)
 
 // department
-export interface DepartemntDeleteReq {
+export interface DepartmentDeleteReq {
+    departmentName: string,
+    departmentLocation: string
+}
+
+export interface DepartmentUpdateReq {
     departmentName: string,
     departmentLocation: string
 }
@@ -77,5 +82,6 @@ export interface DepartmentInsertReq {
 }
 
 export const getDepartments = () => apiGetCall("department")
-export const deleteDepartment = (req: DepartemntDeleteReq) => apiDeleteCall<DepartemntDeleteReq>("department", req)
-export const insertDepartment = (req: DepartemntDeleteReq) => apiPostCall<DepartmentInsertReq>("department", req)
+export const deleteDepartment = (req: DepartmentDeleteReq) => apiDeleteCall<DepartmentDeleteReq>("department", req)
+export const updateDepartment = (req: DepartmentUpdateReq) => apiPutCall<DepartmentUpdateReq>("department", req)
+export const insertDepartment = (req: DepartmentDeleteReq) => apiPostCall<DepartmentInsertReq>("department", req)

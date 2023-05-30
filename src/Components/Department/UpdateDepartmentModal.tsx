@@ -1,8 +1,21 @@
 import { useState } from "react";
-import { Button, Form, Modal } from "semantic-ui-react";
+import { Button, Form, FormInputProps, Modal } from "semantic-ui-react";
+import { DepartmentUpdateReq } from "../../api";
+import { Department } from "../../UI/Department";
 
-export function UpdateDepartmentModal() {
+interface UpdateDepartmentModalProps {
+    onConfirm: (req: DepartmentUpdateReq) => void;
+    department: Department
+}
+
+export function UpdateDepartmentModal({
+    onConfirm
+}: UpdateDepartmentModalProps) {
     const [open, setOpen] = useState(false);
+    const [request, setRequest] = useState<DepartmentUpdateReq>({
+        departmentName: "Development",
+        departmentLocation: "London",
+    });
 
     return (
         <Modal
@@ -15,12 +28,30 @@ export function UpdateDepartmentModal() {
             <Modal.Content>
                 <Form>
                     <Form.Field>
-                        <label>Department Name</label>
-                        <input placeholder="E.g. Sales" />
+                        <Form.Input
+                            fluid
+                            label="Department Name"
+                            placeholder="E.g. Development"
+                            onChange={(_, { value }: FormInputProps) => {
+                                setRequest({
+                                    ...request,
+                                    departmentName: String(value),
+                                });
+                            }}
+                        />
                     </Form.Field>
                     <Form.Field>
-                        <label>Department Location</label>
-                        <input placeholder="E.g. Oslo" />
+                    <Form.Input
+                            fluid
+                            label="Department Location"
+                            placeholder="E.g. London"
+                            onChange={(_, { value }: FormInputProps) => {
+                                setRequest({
+                                    ...request,
+                                    departmentLocation: String(value),
+                                });
+                            }}
+                        />
                     </Form.Field>
                 </Form>
             </Modal.Content>
@@ -36,7 +67,10 @@ export function UpdateDepartmentModal() {
                     content="Confirm"
                     labelPosition="right"
                     icon="checkmark"
-                    onClick={() => setOpen(false)}
+                    onClick={() => {
+                        setOpen(false);
+                        onConfirm(request);
+                    }}
                     positive
                 />
             </Modal.Actions>
