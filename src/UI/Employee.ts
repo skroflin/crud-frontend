@@ -1,5 +1,5 @@
 
-interface Employee {
+export interface Employee {
     employeeName: string
     salary: number
     departmentName: string

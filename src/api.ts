@@ -1,44 +1,47 @@
 import axios from "axios";
 
-function apiGetCall(route: string) {
-    return axios.get(`/api/${route}`, {
-            headers: {
-                'Access-Control-Allow-Credentials': 'true',
-                'Access-Control-Allow-Origin': "*"
-            }
-        }).then((res) => res.data)
+async function apiGetCall(route: string) {
+    const res = await axios.get(`/api/${route}`, {
+        headers: {
+            'Access-Control-Allow-Credentials': 'true',
+            'Access-Control-Allow-Origin': "*"
+        }
+    });
+    return res.data;
 }
 
-function apiPostCall<T>(route: string, data: T) {
-    return axios.post(`/api/${route}`, {
+async function apiPostCall<T>(route: string, data: T) {
+    const res = await axios.post(`/api/${route}`, data, {
+        headers: {
+            'Access-Control-Allow-Credentials': 'true',
+            'Access-Control-Allow-Origin': "*"
+        }
+    });
+    return res.data;
+}
+
+async function apiPutCall<T>(route: string, data: T) {
+    const res = await axios.put(`/api/${route}`, data, {
+        headers: {
+            'Access-Control-Allow-Credentials': 'true',
+            'Access-Control-Allow-Origin': "*"
+        }
+    });
+    return res.data;
+}
+
+async function apiDeleteCall<T>(route: string, data: T) {
+    const res = await axios.delete(`/api/${route}`, {
         headers: {
             'Access-Control-Allow-Credentials': 'true',
             'Access-Control-Allow-Origin': "*"
         },
         data: data
-    }).then((res) => res.data)
+    });
+    return res.data;
 }
 
-function apiPutCall<T>(route: string, data: T) {
-    return axios.put(`/api/${route}`, {
-        headers: {
-            'Access-Control-Allow-Credentials': 'true',
-            'Access-Control-Allow-Origin': "*"
-        },
-        data: data
-    }).then((res) => res.data)
-}
-
-function apiDeleteCall<T>(route: string, data: T) {
-    return axios.delete(`/api/${route}`, {
-            headers: {
-                'Access-Control-Allow-Credentials': 'true',
-                'Access-Control-Allow-Origin': "*"
-            },
-            data: data
-        }).then((res) => res.data)
-}
-
+// employees
 export interface EmployeeDeleteReq {
     employeeName: string
 }
@@ -57,17 +60,22 @@ export interface EmployeeInsertReq {
     departmentLocation: string
 }
 
-export interface DepartemntDeleteReq {
-    departmentName: string,
-    departmentLocation: string
-}
-
-// employees
 export const getEmployees = () => apiGetCall("employee")
 export const deleteEmployee = (req: EmployeeDeleteReq) => apiDeleteCall<EmployeeDeleteReq>("employee", req)
 export const updateEmployee = (req: EmployeeUpdateReq) => apiPutCall<EmployeeUpdateReq>("employee", req)
 export const insertEmployee = (req: EmployeeInsertReq) => apiPostCall<EmployeeInsertReq>("employee", req)
 
 // department
+export interface DepartemntDeleteReq {
+    departmentName: string,
+    departmentLocation: string
+}
+
+export interface DepartmentInsertReq {
+    departmentName: string,
+    departmentLocation: string
+}
+
 export const getDepartments = () => apiGetCall("department")
 export const deleteDepartment = (req: DepartemntDeleteReq) => apiDeleteCall<DepartemntDeleteReq>("department", req)
+export const insertDepartment = (req: DepartemntDeleteReq) => apiPostCall<DepartmentInsertReq>("department", req)

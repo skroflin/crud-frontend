@@ -1,5 +1,5 @@
 
-interface Department {
+export interface Department {
     departmentName: string,
     departmentLocation: string
 }

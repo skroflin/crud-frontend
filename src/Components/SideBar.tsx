@@ -42,13 +42,13 @@ export function SideBar({ links }: SideBarProps) {
                         </NavLink>
                         )}
                     </Sidebar>
-                        <Sidebar.Pusher className={styles.pusher} dimmed={visible}>
-                            <Routes>
-                                {links.map(e =>
-                                    <Route key={e.id} path={`${e.url}/*`} element={e.component} />
-                                )}
-                            </Routes>
-                        </Sidebar.Pusher>
+                    <Sidebar.Pusher className={styles.pusher} dimmed={visible}>
+                        <Routes>
+                            {links.map(e =>
+                                <Route key={e.id} path={`${e.url}/*`} element={e.component} />
+                            )}
+                        </Routes>
+                    </Sidebar.Pusher>
                 </Sidebar.Pushable>
             </BrowserRouter>
         </>
