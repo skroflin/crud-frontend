@@ -72,7 +72,7 @@ export function InsertEmployeeModal({
                         onChange={(_, { value }: DropdownProps) => {
                             const departmentName = String(value).split(",")[0];
                             const departmentLocation =
-                                String(value).split(",")[1];
+                                String(value).split(",")[1].trim();
                             setRequest({
                                 ...request,
                                 departmentName: departmentName,
