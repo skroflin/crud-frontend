@@ -2,6 +2,7 @@ import React, { useState } from "react"
 import { BrowserRouter, NavLink, Route, Routes } from "react-router-dom"
 import { Icon, Menu, Segment, SemanticICONS, Sidebar } from "semantic-ui-react"
 import styles from './Styles.module.scss'
+import { LoginButton } from "./Login/LoginButton"
 
 interface SideBarProps {
     links: {
@@ -22,6 +23,7 @@ export function SideBar({ links }: SideBarProps) {
                 <Menu.Item onClick={() => setVisible(e => !e)}>
                     <Icon name="cogs" size="big" />
                 </Menu.Item>
+                <LoginButton/>
             </Menu>
             <BrowserRouter>
                 <Sidebar.Pushable as={Segment}>

@@ -27,13 +27,30 @@
     }
 }
 
-.header{
+.header {
     .subcontent {
         margin-top: 50px;
         font-size: 3rem;
     }
+
     .subheader {
         padding-bottom: 40px;
         font-size: 2rem;
+    }
+}
+
+.main_div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-left: 20px;
+
+    .main_button {
+        
+
+        .login_button {
+            width: 6em;
+            height: 2.5em;
+        }
     }
 }
